@@ -14,7 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read #This is required for actions/checkout
-
+    env:
+      RABBITMQ_CONNECTION_STRING: amqp://yvan:password@52.156.25.30:5672/
+      PORT: 3000
     steps:
       - uses: actions/checkout@v4
 
