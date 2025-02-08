@@ -14,9 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read #This is required for actions/checkout
-    env:
-      RABBITMQ_CONNECTION_STRING: amqp://yvan:password@52.156.25.30:5672/
-      PORT: 3000
+
     steps:
       - uses: actions/checkout@v4
 
@@ -24,6 +22,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '22.x'
+
+      - name: npm install, build, and test
+        run: |
+          npm install
+          npm run build --if-present
+          npm run test --if-present
 
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
@@ -56,9 +60,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_AA6D93151866455B9FB98C297F5BC0BE }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_E64338AEAAC74800847F5745E79D6125 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_3D2C65CC43334FADB2D683DCFD4BC61E }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_76F56A50508F4B4D9ADE3F82B5B36180 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_6D2723FA14924F3EB79733B9DE1EDBFD }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_87279C06B1B548C9B40733BC23D35A2D }}
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
